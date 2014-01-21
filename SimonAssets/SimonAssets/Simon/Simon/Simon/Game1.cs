@@ -27,6 +27,7 @@ namespace Simon
         Random rand;
         Turn turn = Turn.PLAYER;
         static float turnTime = 0;
+        
 
         List<SimonColors> moves;   // Hint
         int PlayBackIndex = 0;  // Index into moves list
@@ -106,7 +107,6 @@ namespace Simon
                 // TODO: After 1 second add a random move
                 if(turnTime >= 1)
                 {
-
                  moves.Add((SimonColors)rand.Next(0, 4));
                  turn = Turn.PLAYBACK;
                  PlayBackIndex = 0;
@@ -116,6 +116,7 @@ namespace Simon
             {
                 // TODO: Play one move every 750ms.. 
                 // DO NOT PLAY BACK ALL MOVES AT ONCE
+                
 
 
                 if (PlayBackIndex == moves.Count)
