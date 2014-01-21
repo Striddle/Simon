@@ -26,6 +26,7 @@ namespace Simon
         Texture2D cursor;
         Random rand;
         Turn turn = Turn.PLAYER;
+        static float turnTime = 0;
 
         List<SimonColors> moves;   // Hint
         int PlayBackIndex = 0;  // Index into moves list
@@ -103,17 +104,25 @@ namespace Simon
             if (turn == Turn.COMPUTER)
             {
                 // TODO: After 1 second add a random move
+                if(turnTime >= 1)
+                {
 
-                // moves.Add((SimonColors)rand.Next(0, 4));
-                // turn = Turn.PLAYBACK;
-                // PlayBackIndex = 0;
+                 moves.Add((SimonColors)rand.Next(0, 4));
+                 turn = Turn.PLAYBACK;
+                 PlayBackIndex = 0;
+                }
             }
             else if (turn == Turn.PLAYBACK)
             {
                 // TODO: Play one move every 750ms.. 
                 // DO NOT PLAY BACK ALL MOVES AT ONCE
 
-                // If PlayBackIndex == moves.Count then turn = Turn.PLAYER (and set PlayerTurnIndex to 0)
+
+                if (PlayBackIndex == moves.Count)
+                {
+                    turn = Turn.PLAYER;
+                    PlayerTurnIndex = 0;
+                }
             }
             else if (turn == Turn.PLAYER)
             {
@@ -216,19 +225,20 @@ namespace Simon
 
                 spriteBatch.Draw(board, new Rectangle(0, 0, 800, 600), Color.White);
 
+            
                 // Maybe we shouldn't draw all the highlights?   Just the "Lit" one perhaps?   But here's the code if you want to..
-
+            if (SimonColors.GREEN == Lit)
                 // Draw green hightlight (note that this shouldn't ALWAYS been drawn)
                 spriteBatch.Draw(simon, new Rectangle(46, 40, 238, 243), new Rectangle(0, 0, 238, 243), Color.White);
-
+            if (SimonColors.RED == Lit)
                 // Draw red hightlight (note that this shouldn't ALWAYS been drawn)
-                // spriteBatch.Draw(simon, new Rectangle(46 + 277, 40, 238, 243), new Rectangle(277, 0, 238, 243), Color.White);
-
+                spriteBatch.Draw(simon, new Rectangle(46 + 277, 40, 238, 243), new Rectangle(277, 0, 238, 243), Color.White);
+            if (SimonColors.YELLOW == Lit)
                 // Draw yellow hightlight (note that this shouldn't ALWAYS been drawn)
-                // spriteBatch.Draw(simon, new Rectangle(46, 40 + 276, 238, 243), new Rectangle(0, 276, 238, 243), Color.White);
-
+                spriteBatch.Draw(simon, new Rectangle(46, 40 + 276, 238, 243), new Rectangle(0, 276, 238, 243), Color.White);
+            if (SimonColors.BLUE == Lit)
                 // Draw blue hightlight (note that this shouldn't ALWAYS been drawn)
-                // spriteBatch.Draw(simon, new Rectangle(46 + 277, 40 + 276, 238, 243), new Rectangle(277, 276, 238, 243), Color.White);
+                spriteBatch.Draw(simon, new Rectangle(46 + 277, 40 + 276, 238, 243), new Rectangle(277, 276, 238, 243), Color.White);
 
                 // Draw cursor
                 spriteBatch.Draw(cursor, new Vector2(ms.X, ms.Y), Color.White);
