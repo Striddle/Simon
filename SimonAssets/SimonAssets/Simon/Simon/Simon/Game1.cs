@@ -105,31 +105,40 @@ namespace Simon
             if (turn == Turn.COMPUTER)
             {
                 // TODO: After 1 second add a random move
-                if(turnTime >= 1)
+                if(turnTime >= 1000)
                 {
                  moves.Add((SimonColors)rand.Next(0, 4));
                  turn = Turn.PLAYBACK;
                  PlayBackIndex = 0;
+                 turnTime = 0;
                 }
             }
             else if (turn == Turn.PLAYBACK)
             {
                 // TODO: Play one move every 750ms.. 
                 // DO NOT PLAY BACK ALL MOVES AT ONCE
-                
-
-
-                if (PlayBackIndex == moves.Count)
+                if (turnTime >= 750)
                 {
-                    turn = Turn.PLAYER;
-                    PlayerTurnIndex = 0;
+                    for (int x = 0; x <= moves.Count; x++)
+                    {
+                        Lit = moves[x];
+                        turnTime = 0;
+                        PlayBackIndex += 1;
+                    }
+
+
+                    if (PlayBackIndex == moves.Count)
+                    {
+                        turn = Turn.PLAYER;
+                        PlayerTurnIndex = 0;
+                    }
                 }
             }
             else if (turn == Turn.PLAYER)
             {
                 MouseState ms = Mouse.GetState();
 
-                if (ms.LeftButton == ButtonState.Pressed)
+                    if (ms.LeftButton == ButtonState.Pressed && turnTime >= 500)
                 {
                     // Check to see if green button is hit.. add code to make sure the mouse button is depressed so you
                     // don't respond to this buttonpress twice in a row
@@ -154,6 +163,7 @@ namespace Simon
 
             base.Update(gameTime);
         }
+
 
         // point is the on-screen mouse coordinate where a click occurred
         // destination is a rectangle where this sprite will be drawn
